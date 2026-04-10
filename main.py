@@ -46,7 +46,7 @@ def main() -> None:
 
     print('desc:')
     n = args.layer // 2
-    s = ' '.join(f"f {i/n}" for i in range(n))
+    s = ' '.join(f"f {2*i/n-1}" for i in range((n + 1) // 2, n))    # 适用于奇数阶和偶数阶
     with open(args.desc, 'w', encoding='utf-8') as fp:
         fp.write(f"c {s}\n")
     print(f'已生成描述文件: {args.desc}')
