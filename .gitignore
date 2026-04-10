@@ -6,3 +6,6 @@ output/
 *.jpeg
 *.bmp
 *.html
+
+!/assets/*.png
+!/assets/*.jpg
