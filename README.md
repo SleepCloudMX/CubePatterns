@@ -60,9 +60,9 @@ python main.py --layer 7 --image photo.jpg
 ```
 --layer LAYER              魔方阶数 (≥3，默认无)
 --image IMAGE              输入图片路径 (必需)
---pattern PATTERN          输出图案文件 (默认 pattern.txt)
---alg ALG                  输出公式文件 (默认 alg.txt)
---desc DESC                输出描述文件 (默认 desc.txt)
+--pattern PATTERN          输出图案文件 (默认 temp/pattern.txt)
+--alg ALG                  输出公式文件 (默认 temp/alg.txt)
+--desc DESC                输出描述文件 (默认 temp/desc.txt)
 --threshold THRESHOLD      二值化阈值 0-255 (默认 128)
 --invert                   黑白反相
 --fit {contain, cover}     缩放策略 (默认 contain)
@@ -212,12 +212,6 @@ python main.py --layer 7 --image logo.png --h-align center --v-align center
 ### 问题 3: 图像格式不支持
 
 确保使用常见格式：`.png`, `.jpg`, `.bmp`, `.gif` 等。可先用图片编辑工具转换。
-
-### 问题 4: 缺少 Pillow 库
-
-```bash
-pip install --upgrade pillow
-```
 
 ---
 

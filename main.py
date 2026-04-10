@@ -9,10 +9,10 @@ def main() -> None:
     parser = argparse.ArgumentParser(description='读取图片并生成 input.txt 图案（双色）')
     parser.add_argument('--layer', type=int, required=True, help='魔方阶数（图案网格为 layer-2）')
     parser.add_argument('--image', required=True, help='输入图片路径，例如 logo.png')
-    parser.add_argument('--pattern', default='pattern.txt', help='输出文件路径（默认 pattern.txt）')
-    parser.add_argument('--alg', default='alg.txt', help='公式输出文件路径（默认 alg.txt）')
-    parser.add_argument('--desc', type=str, default='desc.txt', help='描述文件路径（默认 desc.txt）')
-    parser.add_argument('--href', type=str, default='href.txt', help='链接文件路径（默认 href.txt）')
+    parser.add_argument('--pattern', default='temp/pattern.txt', help='输出文件路径（默认 pattern.txt）')
+    parser.add_argument('--alg', default='temp/alg.txt', help='公式输出文件路径（默认 alg.txt）')
+    parser.add_argument('--desc', type=str, default='temp/desc.txt', help='描述文件路径（默认 desc.txt）')
+    parser.add_argument('--url', type=str, default='url.txt', help='链接文件路径（默认 url.txt）')
     parser.add_argument('--threshold', type=int, default=128, help='二值化阈值 0-255（默认 128）')
     parser.add_argument('--invert', action='store_true', help='反相：黑白互换')
     parser.add_argument('--fit', choices=['contain', 'cover'], default='contain', help='缩放策略')
@@ -27,7 +27,8 @@ def main() -> None:
 
     size = args.layer - 2
     image_path = Path(args.image)
-    output_path = Path(args.pattern)
+    pattern_path = Path(args.pattern)
+    pattern_path.parent.mkdir(parents=True, exist_ok=True)
     matrix = image_to_binary_matrix(
         image_path=image_path,
         size=size,
@@ -37,28 +38,36 @@ def main() -> None:
         h_align=args.h_align,
         v_align=args.v_align,
     )
-    write_input_file(output_path, args.layer, matrix)
-    print(f'已生成图案文件: {output_path}')
+    write_input_file(pattern_path, args.layer, matrix)
+    print(f'已生成图案文件: {pattern_path}')
 
     alg_path = Path(args.alg)
-    solve(str(output_path), str(alg_path))
+    alg_path.parent.mkdir(parents=True, exist_ok=True)
+    solve(str(pattern_path), str(alg_path))
     print(f'已生成公式文件: {alg_path}')
 
     print('desc:')
-    n = args.layer // 2
+    n = args.layer
     s = ' '.join(f"f {2*i/n-1}" for i in range((n + 1) // 2, n))    # 适用于奇数阶和偶数阶
-    with open(args.desc, 'w', encoding='utf-8') as fp:
+    desc_path = Path(args.desc)
+    desc_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(desc_path, 'w', encoding='utf-8') as fp:
         fp.write(f"c {s}\n")
     print(f'已生成描述文件: {args.desc}')
 
-    with open(args.href, 'w', encoding='utf-8') as fp:
+    with open(args.url, 'w', encoding='utf-8') as fp:
         with open(alg_path, 'r', encoding='utf-8') as alg_fp:
             alg = alg_fp.read().strip().replace('\n', '%0A').replace(' ', '+').replace("'", "%27")
-        with open(args.desc, 'r', encoding='utf-8') as desc_fp:
+        with open(desc_path, 'r', encoding='utf-8') as desc_fp:
             desc = desc_fp.read().strip().replace(' ', '+')
-        href = f"https://alpha.twizzle.net/explore/?puzzle-description={desc}&alg={alg}"
-        fp.write(href)
-    print(f'已生成链接文件: {args.href}')
+        url = f"https://alpha.twizzle.net/explore/?puzzle-description={desc}&alg={alg}"
+        fp.write(url)
+    print(f'已生成链接文件: {args.url}')
+
+    html = f'''<meta http-equiv="refresh" content="0;url={url}">
+    <a href="{url}"></a>'''
+    with open(f"twizzle.html", "w", encoding="utf-8") as f:
+        f.write(html)
 
 
 if __name__ == '__main__':
