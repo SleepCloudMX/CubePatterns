@@ -12,7 +12,7 @@
 3. **计算求解公式** (每个面都拼出指定图案的魔方公式)
 4. **支持灵活的参数调整** (缩放、对齐、二值化阈值等)
 
-特别适合：生成魔方贴纸图案、创意魔方设计、图片艺术化等场景。
+<img src="assets/demo_result.png" alt="image-20260410202938533" style="zoom:50%;" />
 
 ---
 
@@ -33,12 +33,16 @@ python main.py --layer 7 --image logo.png
 ```
 
 **输出文件：**
-- `pattern.txt` - 二值阵列图案
-- `alg.txt` - 魔方求解公式
+
+- `temp/pattern.txt` - 二值阵列图案
+- `temp/alg.txt` - 魔方求解公式
+- `temp/desc.txt` - [alpha twizzle](https://alpha.twizzle.net/explore/) 的自定义配置
+- `url.txt` - 保存网址
+- `twizzle.html` - 结果，可直接在浏览器打开
 
 ### 3. 使用 Windows 批处理
 
-编辑 `run.bat` 中的参数后直接运行：
+编辑 `run.bat` 中的环境名和参数后直接运行：
 
 ```bat
 run.bat
