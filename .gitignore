@@ -1,1 +1,6 @@
-output.txt
+output
+*.txt
+*.png
+*.jpg
+*.jpeg
+*.bmp
