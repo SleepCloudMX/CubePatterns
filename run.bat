@@ -1,3 +1,3 @@
 call conda activate ai
-python main.py --layer 32 --image "emoji.jpg"
+python main.py --layer 50 --image "demo.png"
 @REM pause

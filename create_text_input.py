@@ -59,7 +59,7 @@ def write_input_file(path: Path, layer: int, matrix: list[list[bool]], on_char: 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description='读取图片并生成 input.txt 图案（双色）')
-    parser.add_argument('--layer', type=int, required=True, help='魔方阶数（图案网格为 layer-1）')
+    parser.add_argument('--layer', type=int, required=True, help='魔方阶数（图案网格为 layer-2）')
     parser.add_argument('--image', required=True, help='输入图片路径，例如 logo.png')
     parser.add_argument('--output', default='input.txt', help='输出文件路径（默认 input.txt）')
     parser.add_argument('--threshold', type=int, default=128, help='二值化阈值 0-255（默认 128）')
@@ -74,7 +74,7 @@ def main() -> None:
     if not 0 <= args.threshold <= 255:
         raise ValueError('threshold 必须在 0~255 之间')
 
-    size = args.layer - 1
+    size = args.layer - 2
     image_path = Path(args.image)
     output_path = Path(args.output)
     matrix = image_to_binary_matrix(

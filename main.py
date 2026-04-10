@@ -7,7 +7,7 @@ from patterns import solve
 
 def main() -> None:
     parser = argparse.ArgumentParser(description='读取图片并生成 input.txt 图案（双色）')
-    parser.add_argument('--layer', type=int, required=True, help='魔方阶数（图案网格为 layer-1）')
+    parser.add_argument('--layer', type=int, required=True, help='魔方阶数（图案网格为 layer-2）')
     parser.add_argument('--image', required=True, help='输入图片路径，例如 logo.png')
     parser.add_argument('--pattern', default='pattern.txt', help='输出文件路径（默认 pattern.txt）')
     parser.add_argument('--alg', default='alg.txt', help='公式输出文件路径（默认 alg.txt）')
@@ -25,7 +25,7 @@ def main() -> None:
     if not 0 <= args.threshold <= 255:
         raise ValueError('threshold 必须在 0~255 之间')
 
-    size = args.layer - 1
+    size = args.layer - 2
     image_path = Path(args.image)
     output_path = Path(args.pattern)
     matrix = image_to_binary_matrix(

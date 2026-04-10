@@ -43,7 +43,7 @@ def read_input(path: str) -> tuple[int, list[list[bool]]]:
     if layer < 3:
         raise ValueError('阶数必须 >= 3')
 
-    size = layer - 1
+    size = layer - 2
     pattern_start = header_index + 1
     if pattern_start < len(raw_lines) and raw_lines[pattern_start].strip().lower() in {'pattern:', '[pattern]'}:
         pattern_start += 1
@@ -129,7 +129,7 @@ def solve(input_path: str, output_path: str) -> None:
     layer, matrix = read_input(input_path)
     mid = layer // 2
     with open(output_path, 'w', encoding='utf-8') as fp:
-        for row, cells in enumerate(matrix, 1):
+        for row, cells in enumerate(matrix, 2):
             cols = find_runs(cells)
             if not cols:
                 continue
