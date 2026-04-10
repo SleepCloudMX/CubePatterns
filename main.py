@@ -12,6 +12,7 @@ def main() -> None:
     parser.add_argument('--pattern', default='pattern.txt', help='输出文件路径（默认 pattern.txt）')
     parser.add_argument('--alg', default='alg.txt', help='公式输出文件路径（默认 alg.txt）')
     parser.add_argument('--desc', type=str, default='desc.txt', help='描述文件路径（默认 desc.txt）')
+    parser.add_argument('--href', type=str, default='href.txt', help='链接文件路径（默认 href.txt）')
     parser.add_argument('--threshold', type=int, default=128, help='二值化阈值 0-255（默认 128）')
     parser.add_argument('--invert', action='store_true', help='反相：黑白互换')
     parser.add_argument('--fit', choices=['contain', 'cover'], default='contain', help='缩放策略')
@@ -49,6 +50,15 @@ def main() -> None:
     with open(args.desc, 'w', encoding='utf-8') as fp:
         fp.write(f"c {s}\n")
     print(f'已生成描述文件: {args.desc}')
+
+    with open(args.href, 'w', encoding='utf-8') as fp:
+        with open(alg_path, 'r', encoding='utf-8') as alg_fp:
+            alg = alg_fp.read().strip().replace('\n', '%0A').replace(' ', '+').replace("'", "%27")
+        with open(args.desc, 'r', encoding='utf-8') as desc_fp:
+            desc = desc_fp.read().strip().replace(' ', '+')
+        href = f"https://alpha.twizzle.net/explore/?puzzle-description={desc}&alg={alg}"
+        fp.write(href)
+    print(f'已生成链接文件: {args.href}')
 
 
 if __name__ == '__main__':
